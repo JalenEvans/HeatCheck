@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { fetchNBAStats } from '../api/nbaStats'
-import { CandlestickChart } from '../components/CandlestickChart';
-import type { Gamelog } from '../types';
+import { fetchNBAStats } from './api/nbaStats'
+import { CandlestickChart } from './components/CandlestickChart';
+import type { Gamelog } from './types/types';
 
 export function App() {
   const [gamelogs, setGamelogs] = useState<Gamelog[]>([]);

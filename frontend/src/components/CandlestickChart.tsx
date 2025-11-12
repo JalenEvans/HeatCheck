@@ -1,6 +1,6 @@
 import Plot from 'react-plotly.js';
 import { createCandlestick } from '../utils/candleLogic';
-import type { Gamelog } from '../types';
+import type { Gamelog } from '../types/types';
 
 interface CandlestickChartProps {
     gamelogs: Gamelog[];

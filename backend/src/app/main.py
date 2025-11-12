@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-import nba_stats as nba_stats
+from .services import nba_stats
 
 
 app = FastAPI()
