@@ -124,3 +124,6 @@ Desktop.ini
 
 # Linux
 *~
+
+# Environmental Variables
+.env
