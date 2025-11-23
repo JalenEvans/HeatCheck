@@ -127,3 +127,6 @@ Desktop.ini
 
 # Environmental Variables
 .env
+
+#documentation
+documentation/

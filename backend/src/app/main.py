@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from .services import nba_stats
+from .services import fetch_player_gamelogs
 
 
 app = FastAPI()
@@ -15,5 +15,5 @@ app.add_middleware(
 
 @app.get("/player/{player_id}/{season}/gamelogs")
 def get_player_gamelogs(player_id: int , season: str):
-    gamelogs_df = nba_stats.fetch_player_gamelogs(player_id, season)
+    gamelogs_df = fetch_player_gamelogs.fetch_player_gamelogs(player_id, season)
     return gamelogs_df.to_dict(orient='records')
