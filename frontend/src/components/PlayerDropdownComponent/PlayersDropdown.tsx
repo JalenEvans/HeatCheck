@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { fetchActivePlayers } from "../../api/fetchActivePlayers";
 
 import type { Player } from "../../types/types";
@@ -15,6 +15,34 @@ const PlayersDropdown = ({ onSelect }: PlayerDropdownProps) => {
   const [players, setPlayers] = useState<Player[]>([]);
   const [search, setSearch] = useState<string>("");
   const [open, setOpen] = useState<boolean>(false);
+
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  // Close dropdown
+  useEffect(() => {
+    // Close dropdown when clicking outside
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setOpen(false);
+      }
+    }
+
+    // Close dropdown on Escape key
+    const handleEsc = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setOpen(false);
+        inputRef.current?.blur();
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleEsc);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleEsc);
+    };
+  });
 
   // Fetch list of active players on component mount
   useEffect(() => {
@@ -35,10 +63,12 @@ const PlayersDropdown = ({ onSelect }: PlayerDropdownProps) => {
   );
 
   return (
-    <div className="w-full relative">
+    <div className="w-full relative" ref={dropdownRef}>
 
       {/* Search Input */}
       <input
+        ref={inputRef}
+        type="text"
         value={search}
         onFocus={() => setOpen(true)}
         onChange={(e) => setSearch(e.target.value)}
