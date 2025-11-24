@@ -1,8 +1,11 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { fetchActivePlayers } from "../../api/fetchActivePlayers";
+
 import type { Player } from "../../types/types";
 
 import { PlayerDropdownItem } from "./PlayerDropdownItem";
+
+import "./PlayerDropdown.css";
 
 interface PlayerDropdownProps {
   onSelect: (player: Player) => void;
@@ -32,6 +35,8 @@ const PlayersDropdown = ({ onSelect }: PlayerDropdownProps) => {
 
   return (
     <div style={{ width: 250, position: "relative" }}>
+
+      {/* Search Input */}
       <input
         value={search}
         onFocus={() => setOpen(true)}
@@ -40,6 +45,7 @@ const PlayersDropdown = ({ onSelect }: PlayerDropdownProps) => {
         style={{ width: "100%", padding: "8px" }}
       />
 
+      {/* Dropdown List */}
       {open && (
         <div
           style={{
@@ -71,7 +77,7 @@ const PlayersDropdown = ({ onSelect }: PlayerDropdownProps) => {
 
           {/* Show message if no players meet the search */}
           {filtered.length === 0 && (
-            <div style={{ padding: "8px", color: "#777" }}>
+            <div className="bg" style={{ padding: "8px", color: "#777" }}>
               No Active Players.
             </div>
           )}
