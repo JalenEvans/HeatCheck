@@ -15,36 +15,12 @@ const PlayersDropdown = ({ onSelect }: PlayerDropdownProps) => {
   const [players, setPlayers] = useState<Player[]>([]);
   const [search, setSearch] = useState<string>("");
   const [open, setOpen] = useState<boolean>(false);
+  const [highlightedIndex, setHighlightedIndex] = useState<number>(-1);
 
   const dropdownRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Close dropdown
-  useEffect(() => {
-    // Close dropdown when clicking outside
-    const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setOpen(false);
-      }
-    }
-
-    // Close dropdown on Escape key
-    const handleEsc = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setOpen(false);
-        inputRef.current?.blur();
-      }
-    }
-
-    document.addEventListener("mousedown", handleClickOutside);
-    document.addEventListener("keydown", handleEsc);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.removeEventListener("keydown", handleEsc);
-    };
-  });
-
-  // Fetch list of active players on component mount
+    // Fetch list of active players on component mount
   useEffect(() => {
     console.log("Fetching active players...");
     fetchActivePlayers().then((players) => {
@@ -62,6 +38,65 @@ const PlayersDropdown = ({ onSelect }: PlayerDropdownProps) => {
       .includes(search.toLowerCase())
   );
 
+  // Close dropdown
+  useEffect(() => {
+    // Close dropdown when clicking outside
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setOpen(false);
+      }
+    }
+
+    // Close dropdown on Escape key
+    const handleEsc = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        setOpen(false);
+        inputRef.current?.blur();
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleEsc);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleEsc);
+    };
+  });
+
+  // Arrow key navigation
+  useEffect(() => {
+    const handleArrowKeys = (event: KeyboardEvent) => {
+      if (!open) return;
+
+      if (event.key == "ArrowDown") {
+        event.preventDefault();
+        console.log("DOWN");
+        setHighlightedIndex((prevIndex) => (prevIndex + 1) % filtered.length);
+      } 
+
+      if (event.key == "ArrowUp") {
+        event.preventDefault();
+        setHighlightedIndex((prevIndex) => (prevIndex - 1 + filtered.length) % filtered.length);
+      }
+
+      if (event.key == "Enter") {
+        event.preventDefault();
+        if (highlightedIndex >= 0 && highlightedIndex < filtered.length) {
+          const selectedPlayer = filtered[highlightedIndex];
+          onSelect(selectedPlayer);
+          setOpen(false);
+          setSearch(`${selectedPlayer.first_name} ${selectedPlayer.last_name}`);
+        }
+      }
+    }
+
+    document.addEventListener("keydown", handleArrowKeys);
+    return () => {
+      document.removeEventListener("keydown", handleArrowKeys);
+    }
+  }, [open, highlightedIndex, filtered]);
+
   return (
     <div className="w-full relative" ref={dropdownRef}>
 
@@ -70,7 +105,10 @@ const PlayersDropdown = ({ onSelect }: PlayerDropdownProps) => {
         ref={inputRef}
         type="text"
         value={search}
-        onFocus={() => setOpen(true)}
+        onFocus={() => {
+          setOpen(true)
+          setHighlightedIndex(0);
+        }}
         onChange={(e) => setSearch(e.target.value)}
         placeholder="Search players..."
         className="w-full border-2 border-gray-300 rounded p-2"
@@ -87,10 +125,16 @@ const PlayersDropdown = ({ onSelect }: PlayerDropdownProps) => {
                 setOpen(false);
                 setSearch(`${player.first_name} ${player.last_name}`);
               }}
-              onMouseEnter={(e) => (e.currentTarget.style.background = "#eee")}
-              onMouseLeave={(e) => (e.currentTarget.style.background = "white")}
+              onMouseEnter={() => {
+                const index = filtered.indexOf(player);
+                setHighlightedIndex(index);
+              }}
+              onMouseLeave={() => {
+                const index = filtered.indexOf(player);
+                setHighlightedIndex(index);
+              }}
             >
-              <PlayerDropdownItem player={player} />
+              <PlayerDropdownItem player={player} isHighlighted={filtered[highlightedIndex] == player} />
             </div>
           ))}
 
