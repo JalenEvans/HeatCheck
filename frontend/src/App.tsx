@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react';
-import { fetchNBAStats } from './api/nbaStats'
+import { fetchPlayerGamelogs } from './api/fetchPlayerGamelogs'
 import { CandlestickChart } from './components/CandlestickChart';
 import type { Gamelog } from './types/types';
+import { PlayersDropdown } from './components/PlayerDropdownComponent/PlayersDropdown';
 
 export function App() {
   const [gamelogs, setGamelogs] = useState<Gamelog[]>([]);
 
   useEffect(() => {
     console.log("Fetching NBA stats...");
-    fetchNBAStats(1631157, '2025-26').then((gamelogs) => {
+    fetchPlayerGamelogs(1631157, '2025-26').then((gamelogs) => {
       if (gamelogs) {
         setGamelogs(gamelogs);
         console.log("Gamelogs fetched:", gamelogs);
@@ -18,9 +19,9 @@ export function App() {
 
 
   return (
-    <div style={{ color: 'black', fontSize: 24, padding: 20 }}>
-      <h1>Heat Check</h1>
+    <div>
       <CandlestickChart gamelogs={gamelogs} />
+      <PlayersDropdown onSelect={() => console.log("BAM")}/>
     </div>
   );
 }
