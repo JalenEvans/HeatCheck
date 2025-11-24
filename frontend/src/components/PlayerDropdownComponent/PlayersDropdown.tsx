@@ -27,6 +27,7 @@ const PlayersDropdown = ({ onSelect }: PlayerDropdownProps) => {
     });
   }, []);
 
+  // Filter players based on search input
   const filtered = players.filter((player) =>
     `${player.first_name} ${player.last_name}`
       .toLowerCase()
@@ -34,7 +35,7 @@ const PlayersDropdown = ({ onSelect }: PlayerDropdownProps) => {
   );
 
   return (
-    <div style={{ width: 250, position: "relative" }}>
+    <div className="w-full relative">
 
       {/* Search Input */}
       <input
@@ -42,23 +43,12 @@ const PlayersDropdown = ({ onSelect }: PlayerDropdownProps) => {
         onFocus={() => setOpen(true)}
         onChange={(e) => setSearch(e.target.value)}
         placeholder="Search players..."
-        style={{ width: "100%", padding: "8px" }}
+        className="w-full border-2 border-gray-300 rounded p-2"
       />
 
       {/* Dropdown List */}
       {open && (
-        <div
-          style={{
-            position: "absolute",
-            top: "40px",
-            width: "100%",
-            maxHeight: "200px",
-            overflowY: "auto",
-            border: "1px solid #ddd",
-            background: "white",
-            zIndex: 10,
-          }}
-        >
+        <div className="absolute top-10 w-full max-h-52 overflow-y-auto border border-gray-300 bg-white z-10">
           {filtered.map((player) => (
             <div
               key={player.id}
@@ -67,7 +57,6 @@ const PlayersDropdown = ({ onSelect }: PlayerDropdownProps) => {
                 setOpen(false);
                 setSearch(`${player.first_name} ${player.last_name}`);
               }}
-              style={{ padding: "8px", cursor: "pointer" }}
               onMouseEnter={(e) => (e.currentTarget.style.background = "#eee")}
               onMouseLeave={(e) => (e.currentTarget.style.background = "white")}
             >
@@ -77,7 +66,7 @@ const PlayersDropdown = ({ onSelect }: PlayerDropdownProps) => {
 
           {/* Show message if no players meet the search */}
           {filtered.length === 0 && (
-            <div className="bg" style={{ padding: "8px", color: "#777" }}>
+            <div className="p-2 text-gray-500">
               No Active Players.
             </div>
           )}

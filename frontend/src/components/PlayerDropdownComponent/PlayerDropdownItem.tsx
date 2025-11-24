@@ -6,7 +6,7 @@ interface PlayerDropdownItemProps {
 
 const PlayerDropdownItem = ({ player }: PlayerDropdownItemProps) => {
     return (
-        <div>
+        <div className='cursor-pointer p-2 border-b border-black'>
             {player.first_name} {player.last_name}
         </div>
     );
