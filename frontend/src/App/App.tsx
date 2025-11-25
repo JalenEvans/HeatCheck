@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { fetchPlayerGamelogs } from '../api/fetchPlayerGamelogs'
 import { CandlestickChart } from '../components/CandlestickChart';
-import type { Gamelog } from '../types/types';
+import type { Gamelog } from '../global_types';
 import { PlayersDropdown } from '../components/PlayerDropdownComponent/PlayersDropdown';
 
 import './App.css';

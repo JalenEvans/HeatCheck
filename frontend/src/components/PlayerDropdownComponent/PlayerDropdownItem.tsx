@@ -1,13 +1,14 @@
-import type { Player } from '../../types/types';
+import type { Player } from '../../global_types';
 
 interface PlayerDropdownItemProps {
     player: Player;
+    index: number;
     isHighlighted?: boolean;
 }
 
-const PlayerDropdownItem = ({ player, isHighlighted }: PlayerDropdownItemProps) => {
+const PlayerDropdownItem = ({ player, index, isHighlighted }: PlayerDropdownItemProps) => {
     return (
-        <div className={`cursor-pointer p-2 border-b border-black ${isHighlighted ? "bg-gray-300" : "bg-white"}`}>
+        <div id={`player-item-${index}`} className={`cursor-pointer p-2 border-b border-black ${isHighlighted ? "bg-gray-300" : "bg-white"}`}>
             {player.first_name} {player.last_name}
         </div>
     );
