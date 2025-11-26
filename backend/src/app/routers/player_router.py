@@ -1,7 +1,7 @@
 from fastapi import Depends, APIRouter
 from sqlalchemy.orm import Session
 
-from ..services import player_services
+from ..services.db import player_services
 from ..schemas.Player import PlayerResponse, PlayerCreate
 from ..db.db import get_db
 

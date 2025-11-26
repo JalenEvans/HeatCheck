@@ -2,8 +2,8 @@ from fastapi import HTTPException
 from psycopg2 import IntegrityError
 from sqlalchemy.orm import Session
 
-from ..models.Team import Team
-from ..schemas.Team import TeamCreate
+from ...models.Team import Team
+from ...schemas.Team import TeamCreate
 
 def select_team_by_id(team_id: int, db: Session) -> Team:
     player = db.query(Team).filter(Team.team_id == team_id).first()

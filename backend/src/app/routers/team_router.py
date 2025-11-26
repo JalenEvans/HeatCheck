@@ -1,7 +1,7 @@
 from fastapi import Depends, APIRouter
 from sqlalchemy.orm import Session
 
-from ..services import team_services
+from ..services.db import team_services
 from ..schemas.Team import TeamResponse, TeamCreate
 from ..db.db import get_db
 
