@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, field_validator
 from datetime import date
 
 class PlayerCreate(BaseModel):
@@ -14,6 +14,13 @@ class PlayerCreate(BaseModel):
     jersey: int
     position: str
     draft_year: int
+
+    @field_validator('height_inches', pre=True)
+    def convert_to_inches(cls, value):
+        # convert nba_api height format (e.g., "6-7") to total inches (e.g., 79)
+        if isinstance(value, str) and '-' in value:
+            feet, inches = map(int, value.split('-'))
+            return feet * 12 + inches
 
 class PlayerResponse(BaseModel):
     player_id: int
