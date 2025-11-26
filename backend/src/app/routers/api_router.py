@@ -1,8 +1,8 @@
 from fastapi import APIRouter
 
-from ..services.fetch_player_gamelogs import fetch_player_gamelogs
-from ..services.fetch_active_players import fetch_active_players
-from ..services.fetch_player_info import fetch_player_info
+from ..services.api.fetch_player_gamelogs import fetch_player_gamelogs
+from ..services.api.fetch_active_players import fetch_active_players
+from ..services.api.fetch_player_info import fetch_player_info
 
 router = APIRouter(
     prefix = "/api",

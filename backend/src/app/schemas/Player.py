@@ -15,12 +15,13 @@ class PlayerCreate(BaseModel):
     position: str
     draft_year: int
 
-    @field_validator('height_inches', pre=True)
+    @field_validator('height_inches', mode='before')
     def convert_to_inches(cls, value):
         # convert nba_api height format (e.g., "6-7") to total inches (e.g., 79)
         if isinstance(value, str) and '-' in value:
             feet, inches = map(int, value.split('-'))
             return feet * 12 + inches
+        return value
 
 class PlayerResponse(BaseModel):
     player_id: int

@@ -11,7 +11,7 @@ router = APIRouter(
 )
 
 @router.get("/{player_id}")
-def get_player_by_id(player_id: int):
+def get_player_by_id(player_id: int, db: Session = Depends(get_db)):
     player = player_services.select_player_by_id(player_id)
     if player:
         return {

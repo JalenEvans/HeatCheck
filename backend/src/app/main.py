@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from .db.db import Base, engine
 from .models import *
 
-from .routers import api_router, player_router
+from .routers import api_router, player_router, team_router
 
 
 Base.metadata.create_all(bind=engine)
@@ -19,6 +19,7 @@ app.add_middleware(
 )
 
 app.include_router(player_router.router)
+app.include_router(team_router.router)
 app.include_router(api_router.router)
 
 

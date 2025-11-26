@@ -1,6 +1,5 @@
 from sqlalchemy.orm import Session
 
-from ..db.db import get_db
 from ..models.Player import Player
 from ..schemas.Player import PlayerCreate
 
