@@ -1,0 +1,25 @@
+from fastapi import APIRouter
+
+from ..services.fetch_player_gamelogs import fetch_player_gamelogs
+from ..services.fetch_active_players import fetch_active_players
+from ..services.fetch_player_info import fetch_player_info
+
+router = APIRouter(
+    prefix = "/api",
+    tags = ["API"]
+)
+
+@router.get("/player/{player_id}/{season}/gamelogs")
+def get_player_gamelogs(player_id: int , season: str):
+    gamelogs_df = fetch_player_gamelogs(player_id, season)
+    return gamelogs_df.to_dict(orient='records')
+
+@router.get("/active_players")
+def get_active_players():
+    active_players_df = fetch_active_players()
+    return active_players_df.to_dict(orient='records')
+
+@router.get("/player/{player_id}/info")
+def get_player_info(player_id: int):
+    player_info_df = fetch_player_info(player_id)
+    return player_info_df.to_dict(orient='records')

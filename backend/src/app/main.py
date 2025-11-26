@@ -1,11 +1,11 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from .services import fetch_player_gamelogs
-from .services import fetch_active_players
-
-from .db import engine, Base
+from .db.db import Base, engine
 from .models import *
+
+from .routers import api_router, player_router
+
 
 Base.metadata.create_all(bind=engine)
 
@@ -18,12 +18,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/player/{player_id}/{season}/gamelogs")
-def get_player_gamelogs(player_id: int , season: str):
-    gamelogs_df = fetch_player_gamelogs.fetch_player_gamelogs(player_id, season)
-    return gamelogs_df.to_dict(orient='records')
+app.include_router(player_router.router)
+app.include_router(api_router.router)
 
-@app.get("/active_players")
-def get_active_players():
-    active_players_df = fetch_active_players.fetch_active_players()
-    return active_players_df.to_dict(orient='records')
+

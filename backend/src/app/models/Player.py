@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String, Date, SmallInteger, ForeignKey
-from ..db import Base
+from ..db.db import Base
 
 class Player(Base):
     __tablename__ = "Player"
@@ -8,11 +8,11 @@ class Player(Base):
     team_id = Column(Integer, ForeignKey("Team.team_id"))
     first_name = Column(String)
     last_name = Column(String)
-    birth_date = Column(Date)
+    birthdate = Column(Date)
     school = Column(String)
     country = Column(String)
     height_inches = Column(SmallInteger)
-    weight_pounds = Column(SmallInteger)
-    jersey_number = Column(SmallInteger)
+    weight = Column(SmallInteger)
+    jersey = Column(SmallInteger)
     position = Column(String)
     draft_year = Column(SmallInteger)
