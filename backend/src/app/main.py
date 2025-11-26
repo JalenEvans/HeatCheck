@@ -4,6 +4,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from .services import fetch_player_gamelogs
 from .services import fetch_active_players
 
+from .db import engine, Base
+from .models import *
+
+Base.metadata.create_all(bind=engine)
+
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
