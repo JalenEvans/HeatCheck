@@ -7,9 +7,17 @@ from ...services.nba_api_fetch import fetch_player_gamelogs
 from ...models.Gamelog import Gamelog
 from ...schemas.Gamelog import GamelogCreate
 
-def select_gamelog_by_id(game_id: int, db: Session) -> Gamelog:
-    gamelog = db.query(Gamelog).filter(Gamelog.game_id == game_id).first()
+def select_gamelog_by_id(game_id: int, player_id: int, season_id: int, db: Session) -> Gamelog:
+    gamelog = db.query(Gamelog).filter(
+        Gamelog.game_id == game_id, 
+        Gamelog.player_id == player_id, 
+        Gamelog.season_id == season_id
+        ).first()
     return gamelog
+
+def select_gamelogs_by_player_id(player_id: int, season_id: int, db: Session):
+    gamelogs = db.query(Gamelog).filter(Gamelog.player_id == player_id, Gamelog.season_id == season_id).order_by(Gamelog.game_date).all()
+    return gamelogs
 
 def insert_gamelog(game_data: GamelogCreate, db: Session):
     # Check if gamelog already exists

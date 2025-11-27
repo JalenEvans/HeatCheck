@@ -11,7 +11,7 @@ export function App() {
 
   useEffect(() => {
     console.log("Fetching NBA stats...");
-    fetchPlayerGamelogs(1631157, '2025-26').then((gamelogs) => {
+    fetchPlayerGamelogs(203500, 22025).then((gamelogs) => {
       if (gamelogs) {
         setGamelogs(gamelogs);
         console.log("Gamelogs fetched:", gamelogs);

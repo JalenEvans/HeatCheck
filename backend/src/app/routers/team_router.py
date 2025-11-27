@@ -10,7 +10,7 @@ router = APIRouter(
     tags = ["Database"]
 )
 
-@router.get("/{team_id}")
+@router.get("/get_team/{team_id}")
 def get_player_by_id(team_id: int, db: Session = Depends(get_db)):
     team = team_services.select_team_by_id(team_id, db)
     if team:
@@ -27,3 +27,8 @@ def get_player_by_id(team_id: int, db: Session = Depends(get_db)):
 def create_player(team_data: TeamCreate, db: Session = Depends(get_db)):
     team_services.insert_team(team_data, db)
     return team_data
+
+@router.post("/bulk_insert")
+def bulk_create_teams(db: Session = Depends(get_db)):
+    team_services.bulk_insert_team(db)
+    return {"message": "Teams inserted successfully"}

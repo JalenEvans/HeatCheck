@@ -10,9 +10,9 @@ router = APIRouter(
     tags = ["Database"]
 )
 
-@router.get("/{game_id}")
-def get_gamelog_by_id(game_id: int, db: Session = Depends(get_db)):
-    gamelog = gamelog_services.select_gamelog_by_id(game_id, db)
+@router.get("/get_game/{game_id}/player/{player_id}/season/{season_id}", response_model=GamelogResponse)
+def get_gamelog_by_id(game_id: int, player_id: int, season_id: int, db: Session = Depends(get_db)):
+    gamelog = gamelog_services.select_gamelog_by_id(game_id, player_id, season_id, db)
     if gamelog:
         return {
             "game_id": gamelog.game_id,
@@ -40,6 +40,11 @@ def get_gamelog_by_id(game_id: int, db: Session = Depends(get_db)):
         }
     else:
         return {"error": "Gamelog not found"}
+    
+@router.get("/get_player_gamelogs/{player_id}/season/{season_id}", response_model=list[GamelogResponse])
+def get_gamelogs_by_player_id(player_id: int, season_id:int, db: Session = Depends(get_db)):
+    gamelogs = gamelog_services.select_gamelogs_by_player_id(player_id, season_id, db)
+    return gamelogs
 
 @router.post("/", response_model=GamelogResponse)
 def create_gamelog(game_data: GamelogCreate, db: Session = Depends(get_db)):

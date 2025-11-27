@@ -73,17 +73,17 @@ class PlayerInfoCreate(BaseModel):
 
 class PlayerResponse(BaseModel):
     player_id: int
-    team_id: int
+    team_id: int | None
     first_name: str
     last_name: str
-    birthdate: date
-    school: str
-    country: str
-    height_inches: int
-    weight: int
-    jersey: int
-    position: str
-    draft_year: int
+    birthdate: date | None
+    school: str | None
+    country: str | None
+    height_inches: int | None
+    weight: int | None
+    jersey: int | None
+    position: str | None
+    draft_year: int | None
     
     class Config:
         from_attributes = True

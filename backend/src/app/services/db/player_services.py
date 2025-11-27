@@ -7,8 +7,6 @@ from ...services.nba_api_fetch import fetch_active_players, fetch_player_info
 from ...models.Player import Player
 from ...schemas.Player import PlayerCreate, PlayerMinCreate, PlayerInfoCreate
 
-import pandas as pd
-
 def select_player_by_id(player_id: int, db: Session) -> Player:
     """
     Select a player by their ID.
@@ -20,6 +18,17 @@ def select_player_by_id(player_id: int, db: Session) -> Player:
     """
     player = db.query(Player).filter(Player.player_id == player_id).first()
     return player
+
+def select_active_players(db: Session) -> list[Player]:
+    """
+    Select all active players from the database.
+    Args:
+        db (Session): The database session.
+    Returns:
+        list[Player]: A list of active player objects.
+    """
+    players = db.query(Player).order_by(Player.last_name).all()
+    return players
 
 def insert_player(player_data: PlayerCreate, db: Session):
     """

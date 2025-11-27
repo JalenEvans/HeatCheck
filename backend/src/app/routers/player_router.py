@@ -10,9 +10,9 @@ router = APIRouter(
     tags = ["Database"]
 )
 
-@router.get("/{player_id}")
+@router.get("/get_player/{player_id}", response_model=PlayerResponse)
 def get_player_by_id(player_id: int, db: Session = Depends(get_db)):
-    player = player_services.select_player_by_id(player_id)
+    player = player_services.select_player_by_id(player_id, db)
     if player:
         return {
             "player_id": player.player_id,
@@ -29,6 +29,11 @@ def get_player_by_id(player_id: int, db: Session = Depends(get_db)):
         }
     else:
         return {"error": "Player not found"}
+    
+@router.get("/active_players", response_model=list[PlayerResponse])
+def get_active_players(db: Session = Depends(get_db)):
+    players = player_services.select_active_players(db)
+    return players
 
 @router.post("/", response_model=PlayerResponse)
 def create_player(player_data: PlayerCreate, db: Session = Depends(get_db)):
