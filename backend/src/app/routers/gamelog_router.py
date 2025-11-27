@@ -45,3 +45,8 @@ def get_gamelog_by_id(game_id: int, db: Session = Depends(get_db)):
 def create_gamelog(game_data: GamelogCreate, db: Session = Depends(get_db)):
     gamelog_services.insert_gamelog(game_data, db)
     return game_data
+
+@router.post("/insert_player_gamelogs/{player_id}")
+def insert_player_gamelogs(player_id: int, db: Session = Depends(get_db)):
+    gamelog_services.insert_player_gamelogs(player_id, db)
+    return {"message": f"Gamelogs for player {player_id} inserted successfully"}

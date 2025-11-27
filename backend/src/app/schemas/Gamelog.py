@@ -1,5 +1,5 @@
-from pydantic import BaseModel
-from datetime import date
+from pydantic import BaseModel, field_validator
+from datetime import datetime, date
 
 class GamelogCreate(BaseModel):
     game_id: int
@@ -24,6 +24,12 @@ class GamelogCreate(BaseModel):
     pf: int
     pts: int
     plus_minus: int
+
+    @field_validator('game_date', mode='before')
+    def parse_birthdate(cls, value):
+        if isinstance(value, str) and value:
+            return datetime.strptime(value, "%b %d, %Y").date()
+        return value
 
 class GamelogResponse(BaseModel):
     game_id: int
