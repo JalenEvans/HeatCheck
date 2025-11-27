@@ -17,6 +17,12 @@ def select_gamelog_by_id(game_id: int, player_id: int, season_id: int, db: Sessi
 
 def select_gamelogs_by_player_id(player_id: int, season_id: int, db: Session):
     gamelogs = db.query(Gamelog).filter(Gamelog.player_id == player_id, Gamelog.season_id == season_id).order_by(Gamelog.game_date).all()
+
+    if not gamelogs:
+        insert_player_gamelogs(player_id, db)
+    
+    gamelogs = db.query(Gamelog).filter(Gamelog.player_id == player_id, Gamelog.season_id == season_id).order_by(Gamelog.game_date).all()
+    
     return gamelogs
 
 def insert_gamelog(game_data: GamelogCreate, db: Session):
