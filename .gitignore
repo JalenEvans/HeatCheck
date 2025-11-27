@@ -132,4 +132,4 @@ Desktop.ini
 documentation/
 
 # Assets
-frontend/src/assets/headshots/*.png
+frontend/src/assets/headshots/
