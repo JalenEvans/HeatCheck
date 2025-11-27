@@ -127,3 +127,9 @@ Desktop.ini
 
 # Environmental Variables
 .env
+
+#documentation
+documentation/
+
+# Assets
+frontend/src/assets/headshots/*.png

@@ -1,9 +1,9 @@
-export async function fetchNBAStats(playerId: number, season: string) {
+export async function fetchPlayerGamelogs(playerId: number, season: string) {
     try {
         const res = await fetch(`http://127.0.0.1:8000/player/${playerId}/${season}/gamelogs`);
 
-        if (!res.ok) throw new Error('Failed to fetch NBA stats');
-        console.log('Fetch NBA stats response:', res);
+        if (!res.ok) throw new Error('Failed to fetch Gamelogs');
+        console.log('Fetch Gamelogs response:', res);
 
         const data = await res.json();
         return data;
