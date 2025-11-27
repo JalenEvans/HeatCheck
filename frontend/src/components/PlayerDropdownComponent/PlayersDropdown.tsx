@@ -6,8 +6,6 @@ import type { PlayerDropdownProps } from "./types";
 
 import "./PlayerDropdown.css";
 
-
-
 const PlayersDropdown = ({ onSelect }: PlayerDropdownProps) => {
   const { dropdownRef, inputRef, search, setSearch, open, setOpen, filtered, highlightedIndex, setHighlightedIndex } = usePlayerDropdown({ onSelect });
 
@@ -33,7 +31,7 @@ const PlayersDropdown = ({ onSelect }: PlayerDropdownProps) => {
         <div className="absolute top-10 w-full max-h-52 overflow-y-auto border border-gray-300 bg-white z-10">
           {filtered.map((player: Player) => (
             <div
-              key={player.id}
+              key={player.player_id}
               onClick={() => {
                 onSelect(player);
                 setOpen(false);

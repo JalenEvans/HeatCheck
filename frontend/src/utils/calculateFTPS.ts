@@ -43,7 +43,5 @@ export const calculateFTPS = (
         (gamelog.tov * tov) +
         (gamelog.pts * pts)
 
-    console.log(ftps)
-
     return ftps;
 }
