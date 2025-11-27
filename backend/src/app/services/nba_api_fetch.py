@@ -1,5 +1,14 @@
-from nba_api.stats.endpoints import PlayerGameLog
+from nba_api.stats.static import players
+from nba_api.stats.endpoints import CommonPlayerInfo, PlayerGameLog
 import pandas as pd
+from time import sleep
+
+def fetch_active_players() -> pd.DataFrame:
+    active_players = players.get_active_players()
+    return pd.DataFrame(active_players)
+
+def fetch_player_info (player_id: int) -> pd.DataFrame:
+    return CommonPlayerInfo(player_id=player_id).get_data_frames()[0]
 
 def append_fpts(gamelog_df: pd.DataFrame) -> pd.DataFrame:
     gamelog_df['FPTS'] = (
